@@ -46,6 +46,23 @@ class BsRequestPolicy < ApplicationPolicy
     record.state == :declined
   end
 
+  def forward_request?
+    # A user who has permission to accept a bs_request has a maintainer role on all targets
+    # of the associated bs_request_actions
+    return false unless accept_request?
+
+    # Only bs_request_actions of type submit can be forwarded
+    record.bs_request_actions.where(type: :submit).any? { |submit_action| submit_action.forward.any? }
+  end
+
+  def add_creator_as_maintainer?
+    # A user who has permission to accept a bs_request has a maintainer role on all targets
+    # of the associated bs_request_actions
+    return false unless accept_request?
+
+    record.bs_request_actions.where(type: :submit).any? { |submit_action| !submit_action.creator_is_target_maintainer }
+  end
+
   private
 
   def author?
