@@ -75,7 +75,7 @@ ul .table-list-group-item {
       }
     }
   }
-  &.requests {
+  &.requests, &.child {
     .request-elements { min-width: 20rem; }
 
     span.badge {
@@ -121,9 +121,6 @@ ul .table-list-group-item {
           text-decoration: line-through;
         }
       }
-    }
-    a, div.collapse, div.collapsing {
-      float: left;
     }
   }
   .problem-elements { min-width: 12rem; }

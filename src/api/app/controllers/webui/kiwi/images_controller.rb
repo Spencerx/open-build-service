@@ -1,10 +1,10 @@
 module Webui
   module Kiwi
     class ImagesController < WebuiController
+      before_action :require_login, only: :import_from_package
       before_action :set_image, except: [:import_from_package]
       before_action :authorize_update, except: [:import_from_package]
       before_action :check_ajax, only: :build_result
-      before_action :require_login, only: :import_from_package
 
       def import_from_package
         package = Package.find(params[:package_id])
@@ -91,7 +91,7 @@ module Webui
           render partial: 'build_status'
         else
           @project = @image.package.project
-          render partial: '/webui/package/no_repositories'
+          render partial: '/webui/package/no_build_results'
         end
       end
 
